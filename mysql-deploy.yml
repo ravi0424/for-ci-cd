@@ -1,3 +1,4 @@
+# kubectl create configmap transport-sql-config --from-file=transport.sql
 apiVersion: apps/v1
 kind: Deployment
 metadata:
