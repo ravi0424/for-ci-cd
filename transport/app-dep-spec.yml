@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-app-deployment
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: php-app
+  template:
+    metadata:
+      labels:
+        app: php-app
+    spec:
+      securityContext:
+        fsGroup: 2000  # The file system group ID for shared storage
+      containers:
+        - name: php-app
+          image: ravikirangunnabattula/my-php-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: mysql # The MySQL service name
+            - name: DB_USER
+              value: root
+            - name: MYSQL_ROOT_PASSWORD
+              value: rootpassword
+            - name: MYSQL_DATABASE
+              value: transport
+          securityContext:
+            runAsUser: 1000           # User ID to run the container as
+            runAsGroup: 3000          # Group ID to run the container as
+            runAsNonRoot: true        # Ensure the container does not run as root
+            allowPrivilegeEscalation: false  # Disallow privilege escalation
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "echo 'Stopping PHP app...'"]
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
