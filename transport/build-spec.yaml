@@ -1,0 +1,26 @@
+version: 0.2
+env:
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
+    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
+    DOCKER_REGISTRY_URL: /myapp/docker-credentials/url
+phases:
+  install:
+    runtime-versions:
+      php: 7.4
+  pre_build:
+    commands:
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_URL" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
+  build:
+    commands:
+      - cd transport/
+      - echo "Building Docker Image"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-php-app:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-php-app:latest"
+  post_build:
+    commands:
+      - echo  "Build  is successfull"
+artifacts:
+  files:
+      - '**/*'
+    discard-paths: no
