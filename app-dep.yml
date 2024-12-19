@@ -1,4 +1,4 @@
-ubuntu@ip-172-31-20-66:~/k8s-transport-project/transport$ cat app-dep.yml
+#first we have to setup a database using configmap
 apiVersion: apps/v1
 kind: Deployment
 metadata:
