@@ -1,6 +1,10 @@
 version: 0.0
 os: linux
 hooks:
+  Prereuistesforcluster:
+    - location: pre_install.sh
+      timeout: 301
+      runas: root
   ApplicationStop:
     - location: stop_container.sh
       timeout: 300
