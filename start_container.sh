@@ -2,7 +2,8 @@
 set -e
 
 # Pull the Docker image from Docker Hub
-docker pull ravikirangunnabattula/simple-php-app
+kubectl create configmap sql-configmap --from-file=/transport/transport.sql
+kubectl apply -f mysql-deploy.yml
+kubectl apply -f mysql-svc.yml
+kubectl applly -f app-dep.yml
 
-# Run the Docker image as a container
-docker run -d -p 80:80 ravikirangunnabattula/simple-php-app
