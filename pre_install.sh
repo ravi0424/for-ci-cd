@@ -1,7 +1,7 @@
 #!/bin/bash
 # Variables: Replace these with your actual credentials and preferred settings
-AWS_ACCESS_KEY_ID="AKIA6ELKN2HVNOHS36HE"
-AWS_SECRET_ACCESS_KEY="Y1VjyRy9L/eUAmJzivQ7nB+6rSHLHpSOp/s0AhMb"
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
 AWS_REGION="ap-south-1"
 AWS_OUTPUT="json"
 
